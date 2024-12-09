@@ -25,3 +25,4 @@ El AppWeb se desarrollo baso con un backend serverles con los servicios de fireb
 
 #Tareas Pendientes 
 * Falta la Adaptatividad
+* Falto las Alertas
