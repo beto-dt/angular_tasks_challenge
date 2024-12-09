@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class LoginComponent {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -27,9 +28,15 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.onLogin(this.loginForm.value).subscribe({
-        next: () => {},
-      });
+      const dataLogin = this.loginForm.value;
+      this.authService.VerityUser(dataLogin.email).subscribe((response) => {
+          this.authService.onLogin(dataLogin.email,dataLogin.password);
+        },
+
+        (error) => {
+          this.router.navigate(['register']);
+        }
+        );
     } else {
       this.loginForm.markAllAsTouched();
     }

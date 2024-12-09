@@ -20,14 +20,14 @@ import {TaskService} from "../../core/services/task.service";
   styleUrl: './task.component.scss',
 })
 export class TaskComponent implements OnInit {
-  todoForm!: FormGroup;
+  taskForm!: FormGroup;
   tasks: ITask[] = [];
   todoStatus = ITaskStatus;
   isSlidePanelOpen = false;
-  todoId: number | null = null;
-  filterByStatus = '';
+  taskId: number | null = null;
+  filterByStatus = 'ALL';
   constructor(private taskService: TaskService, private fb: FormBuilder) {
-    this.todoForm = this.fb.group({
+    this.taskForm = this.fb.group({
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       status: new FormControl('OPEN', [Validators.required]),
@@ -35,11 +35,11 @@ export class TaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllTodos();
+    this.getAllTasks();
   }
 
-  getAllTodos() {
-    this.taskService.getAllTodo(this.filterByStatus).subscribe({
+  getAllTasks() {
+    this.taskService.getAllTasks(this.filterByStatus).subscribe({
       next: (response) => {
         this.tasks = response.data;
       },
@@ -52,40 +52,43 @@ export class TaskComponent implements OnInit {
 
   onCloseSlidePanel() {
     this.isSlidePanelOpen = false;
+    this.taskForm.reset();
   }
 
   onFilterByStatus(status: string) {
     this.filterByStatus = status;
-    this.getAllTodos();
+    this.getAllTasks();
   }
 
   onSubmit() {
-    if (this.todoForm.valid) {
-      if (this.todoId) {
+    if (this.taskForm.valid) {
+      if (this.taskId) {
         this.taskService
-          .updateTodo(this.todoId, this.todoForm.value)
+          .updateTask(this.taskId, this.taskForm.value)
           .subscribe({
             next: (response) => {
-              this.getAllTodos();
+              this.getAllTasks();
               this.onCloseSlidePanel();
+              this.taskForm.reset();
             },
           });
       } else {
-        this.taskService.addTodo(this.todoForm.value).subscribe({
+        this.taskService.addTask(this.taskForm.value).subscribe({
           next: (response) => {
-            this.getAllTodos();
+            this.getAllTasks();
             this.onCloseSlidePanel();
+            this.taskForm.reset();
           },
         });
       }
     } else {
-      this.todoForm.markAllAsTouched();
+      this.taskForm.markAllAsTouched();
     }
   }
 
-  onLoadTodoForm(item: ITask) {
-    this.todoId = item.id!!;
-    this.todoForm.patchValue({
+  onLoadTaskForm(item: ITask) {
+    this.taskId = item.id!!;
+    this.taskForm.patchValue({
       title: item.title,
       description: item.description,
       status: item.status,

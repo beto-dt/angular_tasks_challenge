@@ -3,17 +3,16 @@ export const constants = {
   CURRENT_TOKEN: 'CURRENT_TOKEN',
 };
 
-const apiurl = 'http://localhost:8000/api';
+const apiurl = 'https://app-56zqrk46ra-uc.a.run.app';
 
 export const apiEndpoint = {
-  AuthEndpoint: {
-    login: `${apiurl}/login`,
-    logout: `${apiurl}/logout`,
-    loggedUser: `${apiurl}/user`,
+  TaskEndpoint: {
+    getAllTask: `${apiurl}/tasks`,
+    addTask: `${apiurl}/tasks`,
+    updateTask: `${apiurl}/tasks`,
   },
-  TodoEndpoint: {
-    getAllTodo: `${apiurl}/todo`,
-    addTodo: `${apiurl}/todo`,
-    updateTodo: `${apiurl}/todo`,
+  UserEndpoint: {
+    getUserByEmail: `${apiurl}/users`,
+    createUser: `${apiurl}/users`,
   },
 };

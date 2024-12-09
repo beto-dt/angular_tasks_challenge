@@ -5,6 +5,7 @@ import { MasterComponent } from './shared/layouts/master/master.component';
 import { guestGuard } from './core/guards/guest.guard';
 import { authGuard } from './core/guards/auth.guard';
 import {TaskComponent} from "./pages/task/task.component";
+import {RegisterComponent} from "./pages/register/register.component";
 
 export const routes: Routes = [
   {
@@ -12,6 +13,12 @@ export const routes: Routes = [
     component: DefaultComponent,
     canActivate: [guestGuard],
     children: [{ path: '', component: LoginComponent }],
+  },
+  {
+    path: 'register',
+    component: DefaultComponent,
+    canActivate: [guestGuard],
+    children: [{ path: '', component: RegisterComponent }],
   },
   {
     path: '',

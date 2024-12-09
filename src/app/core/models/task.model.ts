@@ -10,6 +10,4 @@ export interface ITask {
   title: string;
   description: string;
   status: ITaskType;
-  created_at?: string;
-  updated_at?: string;
 }

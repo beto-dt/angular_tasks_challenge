@@ -10,26 +10,22 @@ import { apiEndpoint } from '../constants/constants';
 export class TaskService {
   constructor(private http: HttpClient) {}
 
-  getAllTodo(status: string): Observable<IResponse<ITask[]>> {
-    let queryString = '';
-    if (status !== '') {
-      queryString = `status=${status}`;
-    }
+  getAllTasks(status: string): Observable<IResponse<ITask[]>> {
     return this.http.get<IResponse<ITask[]>>(
-      `${apiEndpoint.TodoEndpoint.getAllTodo}?${queryString}`
+      `${apiEndpoint.TaskEndpoint.getAllTask}/${status}`
     );
   }
 
-  addTodo(data: ITask): Observable<IResponse<ITask>> {
+  addTask(data: ITask): Observable<IResponse<ITask>> {
     return this.http.post<IResponse<ITask>>(
-      `${apiEndpoint.TodoEndpoint.addTodo}`,
+      `${apiEndpoint.TaskEndpoint.addTask}`,
       data
     );
   }
 
-  updateTodo(id: number, data: ITask): Observable<IResponse<ITask>> {
-    return this.http.put<IResponse<ITask>>(
-      `${apiEndpoint.TodoEndpoint.updateTodo}/${id}`,
+  updateTask(id: number, data: ITask): Observable<IResponse<ITask>> {
+    return this.http.patch<IResponse<ITask>>(
+      `${apiEndpoint.TaskEndpoint.updateTask}/${id}`,
       data
     );
   }
